@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\Higashi\Desktop\Photon\tiff-4.7.0\build\CMakeFiles\36c47c3beeac3bef958b9e5d429754a8\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{9DCE82B9-20A5-3B32-B36D-8A9D2317D825}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

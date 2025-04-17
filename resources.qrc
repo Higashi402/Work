@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/scale_images">
+        <file>img/scale-.png</file>
+        <file>img/scale+.png</file>
+    </qresource>
+</RCC>
