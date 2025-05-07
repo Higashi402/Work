@@ -1,6 +1,13 @@
 <RCC>
-    <qresource prefix="/scale_images">
+    <qresource prefix="/main-tools">
         <file>img/scale-.png</file>
         <file>img/scale+.png</file>
+        <file>img/brush.png</file>
+        <file>img/filling.png</file>
+        <file>img/text.png</file>
+        <file>img/eraser.png</file>
+        <file>img/move.png</file>
+        <file>img/rotate.png</file>
+        <file>img/pixeldock.png</file>
     </qresource>
 </RCC>

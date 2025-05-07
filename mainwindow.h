@@ -12,6 +12,10 @@
 #include <QImage>
 #include <QSpinBox>
 
+#include "brushtool.h"
+#include "maintools.h"
+#include "filemenuhandler.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -24,32 +28,42 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = nullptr);
+
+    ImageLabel* getActiveImageLabel() const;
+
+    void displayImage(const QImage &image, const QString &fileName);
+
+    QLabel* getScaleLabel(){
+        return scaleLabel;
+    }
+
+    QMdiArea* getMdiArea(){
+        return mdiArea;
+    }
+
     ~MainWindow();
 
 private slots:
-    void openImageFile();
-    void applyAutoContrast();
-    void zoomIn();
-    void zoomOut();
     void updateActiveImageControls();
+    void openAutocontrastDialog();
+    void openMedianFilterDialog();
+
 
 private:
     Ui::MainWindow *ui;
     QMdiArea *mdiArea;
     QLabel *statusLabel;
 
-    // Элементы управления
-    QSpinBox *leftClipSpinBox;
-    QSpinBox *rightClipSpinBox;
     QLabel *scaleLabel;
+
+    BrushTool* brushTool;
 
     void setupStatusBar();
     void setupToolBar();
-    QImage openBMPFile(char *fileNamePath);
-    QImage openTIFFFile(const char *fileNamePath);
-    void displayImage(const QImage &image, const QString &fileName);
+    void setupSideTabDock();
 
-    ImageLabel* getActiveImageLabel() const;
+    MainTools* mainTools;
+    FileMenuHandler* fileMenuHandler;
 };
 
 #endif // MAINWINDOW_H

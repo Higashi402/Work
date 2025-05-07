@@ -19,7 +19,19 @@ public:
 
     QImage getCurrentImage() const;
     void setCurrentImage(const QImage &image);
-    void applyAutoContrast(int leftClipPercent, int rightClipPercent);
+    void applyAutoContrast(int leftClipPercent, int rightClipPercent, bool separateChannels, int strengthPercent);
+
+    void setOriginalImage(const QImage &image);
+
+    void setImage(const QImage& img)
+    {
+        currentImage = img;
+        setPixmap(QPixmap::fromImage(img));
+    }
+
+    QImage getOriginalImage(){
+        return originalImage;
+    }
 
 protected:
     void mouseMoveEvent(QMouseEvent *event) override;

@@ -9,14 +9,24 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    autocontrastdialog.cpp \
     bmp_handler.cpp \
+    brushtool.cpp \
+    filemenuhandler.cpp \
     main.cpp \
+    maintools.cpp \
     mainwindow.cpp \
+    medianfilterdialog.cpp \
     q_image.cpp
 
 HEADERS += \
+    autocontrastdialog.h \
     bmp_handler.h \
+    brushtool.h \
+    filemenuhandler.h \
+    maintools.h \
     mainwindow.h \
+    medianfilterdialog.h \
     q_image.h
 
 FORMS += \
@@ -28,7 +38,6 @@ INCLUDEPATH += C:\Users\Higashi\Desktop\Photon\tiff-4.7.0\libtiff
 LIBS += -LC:\Users\Higashi\Desktop\Photon\tiff-4.7.0\build\libtiff\Release -ltiff
 
 
-# Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
