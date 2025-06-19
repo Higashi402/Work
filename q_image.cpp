@@ -104,7 +104,6 @@ void ImageLabel::applyAutoContrast(int leftClipPercent, int rightClipPercent, bo
     };
 
     if (separateChannels) {
-        // Считаем гистограммы для каждого канала
         std::vector<int> histogramR(256, 0), histogramG(256, 0), histogramB(256, 0);
 
         for (int y = 0; y < height; ++y) {

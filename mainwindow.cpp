@@ -20,9 +20,10 @@
 #include "mainwindow.h"
 #include "q_image.h"
 #include "./ui_mainwindow.h"
-#include "bmp_handler.h"
-#include "autocontrastdialog.h"
-#include "medianfilterdialog.h"
+#include "bmp/bmp_handler.h"
+#include "dialogs/autocontrastdialog.h"
+#include "dialogs/medianfilterdialog.h"
+#include "dialogs/sobeldialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -52,11 +53,16 @@ MainWindow::MainWindow(QWidget *parent)
     fileMenu->addAction("Создать");
     fileMenu->addAction("Выход");
     menuBar()->addMenu("Вид");
+
+    menuBar()->addMenu("Правка");
+    menuBar()->addMenu("Цвет");
+    menuBar()->addMenu("Слой");
+
     menuBar()->addMenu("Выделение");
     QMenu *toolsMenu = menuBar()->addMenu("Инструменты");
     QAction* autoContrastAction = toolsMenu->addAction("Автоконтрастирование");
     QMenu *filterMenu = menuBar()->addMenu("Фильтры");
-    filterMenu->addAction("Фильтр Гаусса");
+    QAction* sobelFilterAction = filterMenu->addAction("Фильтр Гаусса");
     QAction* medianFilterAction = filterMenu->addAction("Медианная фильтрация");
     filterMenu->addAction("Срединная фильтрация");
     filterMenu->addAction("Нелинейный фильтр");
@@ -72,6 +78,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(autoContrastAction, &QAction::triggered, this, &MainWindow::openAutocontrastDialog);
     connect(medianFilterAction, &QAction::triggered, this, &MainWindow::openMedianFilterDialog);
+
+    connect(sobelFilterAction, &QAction::triggered, this, &MainWindow::openSobelFilterDialog);
 
 }
 
@@ -565,13 +573,10 @@ void MainWindow::setupToolBar()
     });
 
     QAction *fillAction = toolBar->addAction(QIcon(":/main-tools/img/filling.png"), "Заливка");
-    //connect(fillAction, &QAction::triggered, this, &MainWindow::activateFillTool);
 
     QAction *brushAction = toolBar->addAction(QIcon(":/main-tools/img/brush.png"), "Кисть");
-    //connect(brushAction, &QAction::triggered, this, &MainWindow::activateBrushTool);
 
     QAction *textAction = toolBar->addAction(QIcon(":/main-tools/img/text.png"), "Текст");
-    //connect(textAction, &QAction::triggered, this, &MainWindow::activateTextTool);
 
     QAction *rotateAction = toolBar->addAction(QIcon(":/main-tools/img/rotate.png"), "Вращение");
     connect(rotateAction, &QAction::triggered, this, [=]() {
@@ -579,10 +584,8 @@ void MainWindow::setupToolBar()
     });
 
     QAction *moveAction = toolBar->addAction(QIcon(":/main-tools/img/move.png"), "Перемещение");
-    //connect(textAction, &QAction::triggered, this, &MainWindow::activateTextTool);
 
     QAction *eraseAction = toolBar->addAction(QIcon(":/main-tools/img/eraser.png"), "Ластик");
-    //connect(textAction, &QAction::triggered, this, &MainWindow::activateTextTool);
 
     QPushButton* colorIndicator = new QPushButton;
     colorIndicator->setFixedSize(30, 30);
@@ -645,6 +648,17 @@ void MainWindow::openMedianFilterDialog() {
     }
 
     MedianFilterDialog dialog(imageLabel,this);
+    dialog.exec();
+}
+
+void MainWindow::openSobelFilterDialog() {
+    ImageLabel* imageLabel = getActiveImageLabel();
+    if (!imageLabel) {
+        QMessageBox::warning(this, "Ошибка", "Нет активного изображения.");
+        return;
+    }
+
+    SobelFilterDialog dialog(imageLabel,this);
     dialog.exec();
 }
 

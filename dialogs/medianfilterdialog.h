@@ -17,6 +17,8 @@ class MedianFilterDialog : public QDialog {
 public:
     MedianFilterDialog(ImageLabel* target, QWidget* parent = nullptr);
 
+    void applyMedianFilter(QImage& dest, const QImage& src, int windowSize, bool preview=false);
+
 private slots:
     void applyFilter();
     void previewFilter();
@@ -43,7 +45,6 @@ private:
     QPushButton* previewButton;
 
     void initUI();
-    void applyMedianFilter(QImage& dest, const QImage& src, int windowSize, bool preview=false);
 };
 
 

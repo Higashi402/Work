@@ -3,7 +3,7 @@
 #include <QMdiSubWindow>
 
 #include "q_image.h"
-#include "bmp_handler.h"
+#include "bmp/bmp_handler.h"
 #include "mainwindow.h"
 #include "filemenuhandler.h"
 #include "tiffio.h"

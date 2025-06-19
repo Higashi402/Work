@@ -12,8 +12,8 @@
 #include <QImage>
 #include <QSpinBox>
 
-#include "brushtool.h"
-#include "maintools.h"
+#include "tools/brushtool.h"
+#include "tools/maintools.h"
 #include "filemenuhandler.h"
 
 QT_BEGIN_NAMESPACE
@@ -47,6 +47,7 @@ private slots:
     void updateActiveImageControls();
     void openAutocontrastDialog();
     void openMedianFilterDialog();
+    void openSobelFilterDialog();
 
 
 private:

@@ -1,32 +1,38 @@
-QT       += core gui
+QT += core gui
+QT += testlib
+
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17
+CONFIG += testcase
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    autocontrastdialog.cpp \
-    bmp_handler.cpp \
-    brushtool.cpp \
+    dialogs/autocontrastdialog.cpp \
+    bmp/bmp_handler.cpp \
+    #tests/tst_medianfilter.cpp \
+    dialogs/sobeldialog.cpp \
+    tools/brushtool.cpp \
     filemenuhandler.cpp \
     main.cpp \
-    maintools.cpp \
+    tools/maintools.cpp \
     mainwindow.cpp \
-    medianfilterdialog.cpp \
+    dialogs/medianfilterdialog.cpp \
     q_image.cpp
 
 HEADERS += \
-    autocontrastdialog.h \
-    bmp_handler.h \
-    brushtool.h \
+    dialogs/autocontrastdialog.h \
+    bmp/bmp_handler.h \
+    dialogs/sobeldialog.h \
+    tools/brushtool.h \
     filemenuhandler.h \
-    maintools.h \
+    tools/maintools.h \
     mainwindow.h \
-    medianfilterdialog.h \
+    dialogs/medianfilterdialog.h \
     q_image.h
 
 FORMS += \

@@ -12,7 +12,6 @@ MedianFilterDialog::MedianFilterDialog(ImageLabel* target, QWidget* parent)
 {
     setWindowTitle("Медианный фильтр - Расширенные настройки");
     setModal(true);
-    //resize(600, 500);
 
     initUI();
     previewFilter();
@@ -22,11 +21,9 @@ void MedianFilterDialog::initUI()
 {
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
 
-    // Группа параметров фильтра
     QGroupBox* paramsGroup = new QGroupBox("Параметры фильтра");
     QGridLayout* paramsLayout = new QGridLayout();
 
-    // Размер окна
     paramsLayout->addWidget(new QLabel("Размер окна:"), 0, 0);
     windowSizeSpin = new QSpinBox();
     windowSizeSpin->setRange(3, 25);
@@ -34,24 +31,20 @@ void MedianFilterDialog::initUI()
     windowSizeSpin->setValue(3);
     paramsLayout->addWidget(windowSizeSpin, 0, 1);
 
-    // Тип обработки границ
     paramsLayout->addWidget(new QLabel("Обработка границ:"), 1, 0);
     borderTypeCombo = new QComboBox();
     borderTypeCombo->addItems({"Отражение", "Черные", "Белые", "Продолжение"});
     paramsLayout->addWidget(borderTypeCombo, 1, 1);
 
-    // Цветовой режим
     paramsLayout->addWidget(new QLabel("Цветовой режим:"), 2, 0);
     colorModeCombo = new QComboBox();
     colorModeCombo->addItems({"RGB", "Яркость", "Красный", "Зеленый", "Синий"});
     paramsLayout->addWidget(colorModeCombo, 2, 1);
 
-    // Сохранение границ
     preserveEdgesCheck = new QCheckBox("Сохранять границы");
     preserveEdgesCheck->setChecked(true);
     paramsLayout->addWidget(preserveEdgesCheck, 3, 0, 1, 2);
 
-    // Порог границ
     paramsLayout->addWidget(new QLabel("Порог границ:"), 4, 0);
     edgeThresholdSpin = new QDoubleSpinBox();
     edgeThresholdSpin->setRange(0.0, 1.0);
@@ -59,12 +52,10 @@ void MedianFilterDialog::initUI()
     edgeThresholdSpin->setValue(0.2);
     paramsLayout->addWidget(edgeThresholdSpin, 4, 1);
 
-    // Адаптивный фильтр
     adaptiveCheck = new QCheckBox("Адаптивный фильтр");
     adaptiveCheck->setChecked(false);
     paramsLayout->addWidget(adaptiveCheck, 5, 0, 1, 2);
 
-    // Количество итераций
     paramsLayout->addWidget(new QLabel("Итерации:"), 6, 0);
     iterationsSpin = new QSpinBox();
     iterationsSpin->setRange(1, 5);
@@ -74,7 +65,6 @@ void MedianFilterDialog::initUI()
     paramsGroup->setLayout(paramsLayout);
     mainLayout->addWidget(paramsGroup);
 
-    // Область предпросмотра
     QGroupBox* previewGroup = new QGroupBox("Предпросмотр");
     QVBoxLayout* previewLayout = new QVBoxLayout();
     previewLabel = new QLabel();
@@ -84,7 +74,6 @@ void MedianFilterDialog::initUI()
     previewGroup->setLayout(previewLayout);
     mainLayout->addWidget(previewGroup);
 
-    // Кнопки
     QHBoxLayout* buttonLayout = new QHBoxLayout();
     previewButton = new QPushButton("Предпросмотр");
     applyButton = new QPushButton("Применить");
@@ -130,30 +119,28 @@ void MedianFilterDialog::applyMedianFilter(QImage& dest, const QImage& src, int 
             gValues.clear();
             bValues.clear();
 
-            // Собираем окрестность с учетом границ
             for (int ky = -halfSize; ky <= halfSize; ++ky) {
                 for (int kx = -halfSize; kx <= halfSize; ++kx) {
                     int px = x + kx;
                     int py = y + ky;
 
-                    // Обработка границ
                     if (px < 0 || px >= width || py < 0 || py >= height) {
                         switch (borderType) {
-                        case 0: // Отражение
+                        case 0:
                             px = qBound(0, px, width-1);
                             py = qBound(0, py, height-1);
                             break;
-                        case 1: // Черные
+                        case 1:
                             rValues.push_back(0);
                             gValues.push_back(0);
                             bValues.push_back(0);
                             continue;
-                        case 2: // Белые
+                        case 2:
                             rValues.push_back(255);
                             gValues.push_back(255);
                             bValues.push_back(255);
                             continue;
-                        case 3: // Продолжение
+                        case 3:
                             px = qBound(0, px, width-1);
                             py = qBound(0, py, height-1);
                             break;
@@ -167,7 +154,6 @@ void MedianFilterDialog::applyMedianFilter(QImage& dest, const QImage& src, int 
                 }
             }
 
-            // Адаптивный фильтр - пропускаем "плоские" области
             if (adaptive) {
                 int minR = *std::min_element(rValues.begin(), rValues.end());
                 int maxR = *std::max_element(rValues.begin(), rValues.end());
@@ -182,7 +168,6 @@ void MedianFilterDialog::applyMedianFilter(QImage& dest, const QImage& src, int 
                 }
             }
 
-            // Сохранение границ
             if (preserveEdges && !preview) {
                 QRgb centerPixel = src.pixel(x, y);
                 int centerR = qRed(centerPixel);
@@ -208,9 +193,8 @@ void MedianFilterDialog::applyMedianFilter(QImage& dest, const QImage& src, int 
                 }
             }
 
-            // Находим медиану в зависимости от цветового режима
             QRgb resultPixel;
-            if (colorMode == 0) { // RGB
+            if (colorMode == 0) {
                 auto mid = rValues.begin() + rValues.size() / 2;
                 std::nth_element(rValues.begin(), mid, rValues.end());
                 int r = *mid;
@@ -222,7 +206,7 @@ void MedianFilterDialog::applyMedianFilter(QImage& dest, const QImage& src, int 
                 int b = *mid;
                 resultPixel = qRgb(r, g, b);
             }
-            else { // Обработка отдельных каналов
+            else {
                 QRgb srcPixel = src.pixel(x, y);
                 int r = qRed(srcPixel);
                 int g = qGreen(srcPixel);
@@ -233,16 +217,16 @@ void MedianFilterDialog::applyMedianFilter(QImage& dest, const QImage& src, int 
                 int median = *mid;
 
                 switch (colorMode) {
-                case 1: // Яркость
+                case 1:
                     resultPixel = qRgb(median, median, median);
                     break;
-                case 2: // Красный
+                case 2:
                     resultPixel = qRgb(median, g, b);
                     break;
-                case 3: // Зеленый
+                case 3:
                     resultPixel = qRgb(r, median, b);
                     break;
-                case 4: // Синий
+                case 4:
                     resultPixel = qRgb(r, g, median);
                     break;
                 }
